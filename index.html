@@ -3,992 +3,142 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>狗狗年齡轉換器</title>
+    <title>每日作業集</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+TC:wght@300;400;500&display=swap"
       rel="stylesheet"
     />
     <style>
-      :root {
-        --cream: #f5efe3;
-        --parchment: #ede0cc;
-        --tan: #c8a97e;
-        --brown: #8b6240;
-        --dark-brown: #5c3d1e;
-        --forest: #6b7c52;
-        --sage: #9aad82;
-        --moss: #d4dfc4;
-        --warm-white: #fdf8f0;
-        --shadow: rgba(92, 61, 30, 0.14);
-      }
-      *,
-      *::before,
-      *::after {
+      *, *::before, *::after {
         box-sizing: border-box;
         margin: 0;
         padding: 0;
       }
       body {
         min-height: 100vh;
-        background-color: var(--cream);
-        background-image: radial-gradient(
-            ellipse at 18% 8%,
-            #e8d9bf 0%,
-            transparent 52%
-          ),
-          radial-gradient(ellipse at 82% 92%, #d5e3c2 0%, transparent 50%);
+        background: #f9f9f9;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-family: 'Noto Serif TC', serif;
-        padding: 2rem 1rem;
+        font-family: 'Inter', 'Noto Sans TC', sans-serif;
+        padding: 2rem 1.5rem;
+        color: #111;
       }
 
-      /* bg paws */
-      .bg-decor {
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-        overflow: hidden;
-        z-index: 0;
-      }
-      .paw {
-        position: absolute;
-        font-size: 2.4rem;
-        opacity: 0.065;
-        animation: drift 12s ease-in-out infinite;
-      }
-      .p1 {
-        top: 7%;
-        left: 4%;
-        animation-delay: 0s;
-        transform: rotate(-15deg);
-      }
-      .p2 {
-        top: 18%;
-        right: 7%;
-        animation-delay: 3s;
-        transform: rotate(20deg);
-      }
-      .p3 {
-        bottom: 14%;
-        left: 9%;
-        animation-delay: 6s;
-        transform: rotate(-25deg);
-      }
-      .p4 {
-        bottom: 7%;
-        right: 5%;
-        animation-delay: 9s;
-        transform: rotate(15deg);
-      }
-      @keyframes drift {
-        0%,
-        100% {
-          transform: translateY(0) rotate(-15deg);
-        }
-        50% {
-          transform: translateY(-10px) rotate(-10deg);
-        }
-      }
-
-      /* card */
-      .card {
-        position: relative;
-        z-index: 1;
-        background: var(--warm-white);
-        border: 2px solid var(--parchment);
-        border-radius: 28px;
-        box-shadow: 0 4px 8px var(--shadow), 0 20px 48px rgba(92, 61, 30, 0.09);
+      .container {
         width: 100%;
         max-width: 480px;
-        padding: 2.8rem 2.4rem 2.4rem;
-        animation: slideUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
-      }
-      @keyframes slideUp {
-        from {
-          opacity: 0;
-          transform: translateY(28px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
       }
 
-      /* header */
       .header {
-        text-align: center;
-        margin-bottom: 2.2rem;
+        margin-bottom: 2.5rem;
       }
-      .dog-icon {
-        font-size: 3.5rem;
-        display: block;
-        margin-bottom: 0.5rem;
-        animation: bounce 2.4s ease-in-out infinite;
-      }
-      @keyframes bounce {
-        0%,
-        100% {
-          transform: translateY(0);
-        }
-        50% {
-          transform: translateY(-8px);
-        }
-      }
-      h1 {
-        font-size: 1.8rem;
-        font-weight: 700;
-        color: var(--dark-brown);
-        letter-spacing: 0.06em;
-      }
-      .subtitle {
-        margin-top: 0.4rem;
-        font-size: 0.8rem;
-        color: var(--brown);
-        opacity: 0.82;
-        letter-spacing: 0.03em;
-      }
-
-      /* input section */
-      .input-section {
-        margin-bottom: 1.8rem;
-      }
-      .field-label {
-        display: flex;
-        align-items: center;
-        gap: 0.45rem;
-        font-size: 0.88rem;
+      .header h1 {
+        font-size: 1.5rem;
         font-weight: 600;
-        color: var(--dark-brown);
-        margin-bottom: 0.7rem;
-        letter-spacing: 0.03em;
-      }
-
-      /* date trigger */
-      .date-trigger {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        padding: 0.85rem 1.2rem;
-        background: var(--cream);
-        border: 2px solid var(--tan);
-        border-radius: 14px;
-        cursor: pointer;
-        transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
-        font-family: 'Noto Serif TC', serif;
-      }
-      .date-trigger:hover {
-        border-color: var(--forest);
-        background: #fff;
-      }
-      .date-trigger.active {
-        border-color: var(--forest);
-        background: #fff;
-        box-shadow: 0 0 0 4px rgba(107, 124, 82, 0.15);
-      }
-      .dt-icon {
-        font-size: 1.15rem;
-        flex-shrink: 0;
-      }
-      .dt-text {
-        flex: 1;
-        text-align: left;
-        font-size: 1rem;
-        font-weight: 600;
-        color: var(--dark-brown);
-      }
-      .dt-text.ph {
-        color: var(--tan);
-        font-weight: 400;
-      }
-      .dt-arrow {
-        font-size: 0.8rem;
-        color: var(--brown);
-        transition: transform 0.25s;
-        flex-shrink: 0;
-      }
-      .dt-arrow.open {
-        transform: rotate(180deg);
-      }
-
-      /* dog age tag */
-      .dog-age-tag {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.35rem;
-        margin-top: 0.65rem;
-        background: var(--parchment);
-        border: 1.5px solid var(--tan);
-        border-radius: 50px;
-        padding: 0.3rem 0.9rem;
-        font-size: 0.78rem;
-        font-weight: 600;
-        color: var(--dark-brown);
-        opacity: 0;
-        transform: translateY(4px);
-        transition: opacity 0.35s, transform 0.35s;
-      }
-      .dog-age-tag.visible {
-        opacity: 1;
-        transform: translateY(0);
-      }
-      .dog-age-tag .age-val {
-        color: var(--forest);
-        font-size: 0.92rem;
-      }
-      .hint {
-        margin-top: 0.5rem;
-        font-size: 0.7rem;
-        color: var(--brown);
-        opacity: 0.65;
-        letter-spacing: 0.02em;
-      }
-
-      /* CALENDAR BACKDROP */
-      .cal-backdrop {
-        position: fixed;
-        inset: 0;
-        z-index: 200;
-        display: none;
-        align-items: center;
-        justify-content: center;
-        background: rgba(92, 61, 30, 0.2);
-        backdrop-filter: blur(3px);
-      }
-      .cal-backdrop.open {
-        display: flex;
-        animation: fadeIn 0.18s ease;
-      }
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-        }
-      }
-
-      /* CALENDAR POPUP */
-      .cal-popup {
-        background: var(--warm-white);
-        border: 2px solid var(--parchment);
-        border-radius: 22px;
-        box-shadow: 0 10px 48px rgba(92, 61, 30, 0.25);
-        width: 320px;
-        max-width: 90vw;
-        padding: 1.4rem 1.3rem 1.2rem;
-        animation: popUp 0.28s cubic-bezier(0.34, 1.4, 0.64, 1) both;
-      }
-      @keyframes popUp {
-        from {
-          opacity: 0;
-          transform: scale(0.88) translateY(18px);
-        }
-        to {
-          opacity: 1;
-          transform: scale(1) translateY(0);
-        }
-      }
-
-      /* nav row */
-      .cal-nav {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 1rem;
-        gap: 0.4rem;
-      }
-      .cal-nav-btn {
-        background: none;
-        border: 1.5px solid var(--tan);
-        border-radius: 8px;
-        width: 30px;
-        height: 30px;
-        flex-shrink: 0;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.85rem;
-        color: var(--brown);
-        transition: background 0.15s, border-color 0.15s;
-      }
-      .cal-nav-btn:hover {
-        background: var(--parchment);
-        border-color: var(--brown);
-      }
-      .cal-title-wrap {
-        display: flex;
-        align-items: center;
-        gap: 0.4rem;
-        flex: 1;
-        justify-content: center;
-      }
-      .cal-sel {
-        background: var(--cream);
-        border: 1.5px solid var(--tan);
-        border-radius: 8px;
-        padding: 0.26rem 0.4rem;
-        font-family: 'Noto Serif TC', serif;
-        font-size: 0.85rem;
-        font-weight: 600;
-        color: var(--dark-brown);
-        cursor: pointer;
-        outline: none;
-        appearance: none;
-        -webkit-appearance: none;
-        text-align: center;
-        transition: border-color 0.18s;
-      }
-      .cal-sel:focus {
-        border-color: var(--forest);
-      }
-      #yearSel {
-        width: 72px;
-      }
-      #monthSel {
-        width: 62px;
-      }
-
-      /* weekday header */
-      .cal-weekdays {
-        display: grid;
-        grid-template-columns: repeat(7, 1fr);
-        margin-bottom: 0.3rem;
-      }
-      .cal-wd {
-        text-align: center;
-        font-size: 0.66rem;
-        font-weight: 600;
-        color: var(--brown);
-        opacity: 0.65;
-        padding: 0.18rem 0;
-      }
-
-      /* days grid */
-      .cal-days {
-        display: grid;
-        grid-template-columns: repeat(7, 1fr);
-        gap: 1px;
-      }
-      .cal-day {
-        aspect-ratio: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        font-size: 0.8rem;
-        font-weight: 400;
-        color: var(--dark-brown);
-        cursor: pointer;
-        border: none;
-        background: none;
-        font-family: 'Noto Serif TC', serif;
-        transition: background 0.13s, color 0.13s;
-        position: relative;
-      }
-      .cal-day:hover:not(.empty):not(.future) {
-        background: var(--moss);
-      }
-      .cal-day.empty {
-        pointer-events: none;
-      }
-      .cal-day.today {
-        font-weight: 700;
-        color: var(--forest);
-      }
-      .cal-day.today::after {
-        content: '';
-        position: absolute;
-        bottom: 3px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 4px;
-        height: 4px;
-        border-radius: 50%;
-        background: var(--sage);
-      }
-      .cal-day.selected {
-        background: var(--forest) !important;
-        color: #fff !important;
-        font-weight: 700;
-      }
-      .cal-day.future {
-        color: var(--tan);
-        cursor: not-allowed;
-        opacity: 0.38;
-      }
-      .cal-day.other-month {
-        opacity: 0.3;
-      }
-
-      /* footer */
-      .cal-footer {
-        margin-top: 0.9rem;
-        padding-top: 0.8rem;
-        border-top: 1.5px solid var(--parchment);
-        display: flex;
-        align-items: center;
-        gap: 0.6rem;
-      }
-      .cal-cancel {
-        background: none;
-        border: 1.5px solid var(--tan);
-        border-radius: 10px;
-        padding: 0.48rem 0.85rem;
-        font-family: 'Noto Serif TC', serif;
-        font-size: 0.8rem;
-        color: var(--brown);
-        cursor: pointer;
-        transition: background 0.18s;
-        flex-shrink: 0;
-      }
-      .cal-cancel:hover {
-        background: var(--parchment);
-      }
-      .cal-confirm {
-        flex: 1;
-        background: var(--forest);
-        color: #fff;
-        border: none;
-        border-radius: 10px;
-        padding: 0.5rem 0;
-        font-family: 'Noto Serif TC', serif;
-        font-size: 0.83rem;
-        font-weight: 700;
-        cursor: pointer;
-        letter-spacing: 0.04em;
-        transition: background 0.18s;
-      }
-      .cal-confirm:hover {
-        background: var(--dark-brown);
-      }
-      .cal-confirm:disabled {
-        background: var(--tan);
-        cursor: not-allowed;
-      }
-
-      /* divider */
-      .divider {
-        display: flex;
-        align-items: center;
-        gap: 0.7rem;
-        margin: 0 0 1.8rem;
-      }
-      .divider::before,
-      .divider::after {
-        content: '';
-        flex: 1;
-        height: 1.5px;
-        background: linear-gradient(
-          to right,
-          transparent,
-          var(--parchment),
-          var(--tan)
-        );
-      }
-      .divider::after {
-        background: linear-gradient(
-          to left,
-          transparent,
-          var(--parchment),
-          var(--tan)
-        );
-      }
-      .div-icon {
-        font-size: 1.25rem;
-        flex-shrink: 0;
-      }
-
-      /* result */
-      .result-section {
-        min-height: 120px;
-      }
-      .placeholder {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 120px;
-        text-align: center;
-        font-size: 0.83rem;
-        color: var(--brown);
-        opacity: 0.58;
-        letter-spacing: 0.03em;
-      }
-      .result-card {
-        background: linear-gradient(135deg, var(--moss) 0%, #eaf2da 100%);
-        border: 1.5px solid var(--sage);
-        border-radius: 20px;
-        padding: 1.6rem 1.4rem 1.4rem;
-        text-align: center;
-        display: none;
-      }
-      .result-card.show {
-        display: block;
-        animation: popIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-      }
-      @keyframes popIn {
-        from {
-          opacity: 0;
-          transform: scale(0.88);
-        }
-        to {
-          opacity: 1;
-          transform: scale(1);
-        }
-      }
-      .r-label {
-        font-size: 0.8rem;
-        color: var(--forest);
-        font-weight: 600;
-        letter-spacing: 0.05em;
-        margin-bottom: 0.15rem;
-      }
-      .r-age {
-        font-size: 4.2rem;
-        font-weight: 700;
-        color: var(--dark-brown);
-        line-height: 1.05;
         letter-spacing: -0.02em;
+        color: #111;
       }
-      .r-unit {
-        font-size: 1rem;
-        color: var(--forest);
-        font-weight: 600;
-        margin-bottom: 0.8rem;
+      .header p {
+        margin-top: 0.4rem;
+        font-size: 0.82rem;
+        color: #999;
+        font-weight: 300;
       }
-      .life-stage {
-        display: inline-block;
-        background: var(--brown);
-        color: var(--warm-white);
-        font-size: 0.78rem;
-        font-weight: 700;
-        padding: 0.3rem 1rem;
-        border-radius: 50px;
-        letter-spacing: 0.06em;
-        margin-bottom: 0.7rem;
-      }
-      .r-desc {
-        font-size: 0.8rem;
-        color: var(--dark-brown);
-        line-height: 1.75;
-        margin-bottom: 1rem;
-        opacity: 0.85;
-        padding: 0 0.5rem;
-      }
-      .formula-box {
-        background: rgba(255, 255, 255, 0.6);
-        border-radius: 10px;
-        padding: 0.5rem 0.9rem;
-        font-size: 0.72rem;
-        color: var(--brown);
+
+      .hw-list {
         display: flex;
-        gap: 0.4rem;
-        justify-content: center;
-        flex-wrap: wrap;
-        margin-bottom: 0.35rem;
+        flex-direction: column;
+        gap: 1px;
+        background: #e5e5e5;
+        border: 1px solid #e5e5e5;
+        border-radius: 12px;
+        overflow: hidden;
       }
-      .formula-text {
-        font-weight: 700;
-        color: var(--forest);
+
+      .hw-link {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1.1rem 1.2rem;
+        background: #fff;
+        text-decoration: none;
+        transition: background 0.15s;
       }
-      .formula-src {
-        font-size: 0.65rem;
-        color: var(--brown);
-        opacity: 0.5;
+      .hw-link:hover {
+        background: #f5f5f5;
+      }
+
+      .hw-num {
+        font-size: 0.68rem;
+        font-weight: 600;
+        color: #666;
+        letter-spacing: 0.06em;
+        width: 28px;
+        flex-shrink: 0;
+      }
+      .hw-info {
+        flex: 1;
+      }
+      .hw-title {
+        font-size: 0.92rem;
+        font-weight: 500;
+        color: #111;
+      }
+      .hw-desc {
+        margin-top: 0.18rem;
+        font-size: 0.73rem;
+        color: #aaa;
+        font-weight: 300;
+      }
+      .hw-arrow {
+        font-size: 0.75rem;
+        color: #ccc;
+        flex-shrink: 0;
+      }
+
+      .footer {
+        margin-top: 2rem;
+        font-size: 0.7rem;
+        color: #ccc;
+        letter-spacing: 0.03em;
       }
 
       @media (max-width: 500px) {
-        .card {
-          padding: 2.2rem 1.5rem 2rem;
-        }
-        h1 {
-          font-size: 1.5rem;
-        }
-        .r-age {
-          font-size: 3.5rem;
-        }
+        .header h1 { font-size: 1.25rem; }
       }
     </style>
   </head>
   <body>
-    <div class="bg-decor">
-      <span class="paw p1">🐾</span>
-      <span class="paw p2">🐾</span>
-      <span class="paw p3">🐾</span>
-      <span class="paw p4">🐾</span>
-    </div>
-
-    <main class="card">
+    <div class="container">
       <div class="header">
-        <span class="dog-icon">🐶</span>
-        <h1>狗狗年齡轉換器</h1>
-        <p class="subtitle">輸入毛孩的生日，換算牠相當於人類幾歲</p>
+        <h1>📋 每日作業集</h1>
+        <p>Vibe Coding 課程作業總覽</p>
       </div>
 
-      <section class="input-section">
-        <p class="field-label">🗓️ 狗狗的生日</p>
-        <button
-          class="date-trigger"
-          id="dateTrigger"
-          type="button"
-          onclick="openCal()"
-        >
-          <span class="dt-icon">📅</span>
-          <span class="dt-text ph" id="dtText">點選選擇生日日期</span>
-          <span class="dt-arrow" id="dtArrow">▼</span>
-        </button>
-        <div class="dog-age-tag" id="dogAgeTag">
-          <span>🐕 目前狗狗年齡</span>
-          <span class="age-val" id="dogAgeVal">—</span>
-          <span>歲</span>
-        </div>
-        <p class="hint">✦ 科學公式適用於 1 歲以上；未滿 1 歲採線性估算</p>
-      </section>
-
-      <div class="divider"><span class="div-icon">🦴</span></div>
-
-      <section class="result-section">
-        <div class="placeholder" id="placeholder">
-          選擇狗狗的生日，立即查看換算結果 🌿
-        </div>
-        <div class="result-card" id="resultCard">
-          <p class="r-label">相當於人類</p>
-          <div class="r-age" id="resultAge">—</div>
-          <p class="r-unit">歲</p>
-          <div class="life-stage" id="lifeStage"></div>
-          <p class="r-desc" id="resultDesc"></p>
-          <div class="formula-box">
-            <span>公式：</span>
-            <span class="formula-text">人類年齡 = 16 × ln（狗齡）+ 31</span>
+      <div class="hw-list">
+        <a class="hw-link" href="hw6/index.html">
+          <span class="hw-num">HW6</span>
+          <div class="hw-info">
+            <div class="hw-title">狗狗年齡轉換器</div>
+            <div class="hw-desc">輸入生日，換算毛孩相當於人類幾歲</div>
           </div>
-          <p class="formula-src">
-            來源：加州大學聖地牙哥分校 表觀遺傳學研究（2019）
-          </p>
-        </div>
-      </section>
-    </main>
+          <span class="hw-arrow">›</span>
+        </a>
 
-    <!-- 月曆彈窗 -->
-    <div class="cal-backdrop" id="calBackdrop" onclick="backdropClick(event)">
-      <div class="cal-popup" id="calPopup">
-        <div class="cal-nav">
-          <button class="cal-nav-btn" onclick="shiftMonth(-1)" title="上個月">
-            ◀
-          </button>
-          <div class="cal-title-wrap">
-            <select
-              class="cal-sel"
-              id="yearSel"
-              onchange="onYearChange()"
-            ></select>
-            <select
-              class="cal-sel"
-              id="monthSel"
-              onchange="onMonthChange()"
-            ></select>
+        <a class="hw-link" href="hw8/index.html">
+          <span class="hw-num">HW8</span>
+          <div class="hw-info">
+            <div class="hw-title">狗狗年齡轉換器 + 記憶生日</div>
+            <div class="hw-desc">加入 localStorage，重新整理後自動帶入上次生日</div>
           </div>
-          <button class="cal-nav-btn" onclick="shiftMonth(1)" title="下個月">
-            ▶
-          </button>
-        </div>
-
-        <div class="cal-weekdays">
-          <div class="cal-wd">日</div>
-          <div class="cal-wd">一</div>
-          <div class="cal-wd">二</div>
-          <div class="cal-wd">三</div>
-          <div class="cal-wd">四</div>
-          <div class="cal-wd">五</div>
-          <div class="cal-wd">六</div>
-        </div>
-        <div class="cal-days" id="calDays"></div>
-
-        <div class="cal-footer">
-          <button class="cal-cancel" onclick="closeCal()">取消</button>
-          <button
-            class="cal-confirm"
-            id="confirmBtn"
-            onclick="confirmDate()"
-            disabled
-          >
-            確認選擇
-          </button>
-        </div>
+          <span class="hw-arrow">›</span>
+        </a>
       </div>
+
+      <p class="footer">更多作業持續更新中</p>
     </div>
-
-    <script>
-      var TODAY = new Date();
-      var viewYear = TODAY.getFullYear();
-      var viewMonth = TODAY.getMonth();
-      var selectedDate = null;
-      var pendingDate = null;
-
-      var STORAGE_KEY = 'dogBirthday';
-
-      // ── init: 從 localStorage 讀取上次儲存的生日 ──────────────────
-      function loadSavedBirthday() {
-        var saved = localStorage.getItem(STORAGE_KEY);
-        if (!saved) return;
-        var d = new Date(saved);
-        if (isNaN(d.getTime()) || d > TODAY) return;
-        selectedDate = d;
-        var el = document.getElementById('dtText');
-        el.classList.remove('ph');
-        el.textContent =
-          selectedDate.getFullYear() +
-          ' / ' +
-          String(selectedDate.getMonth() + 1).padStart(2, '0') +
-          ' / ' +
-          String(selectedDate.getDate()).padStart(2, '0');
-        showResult();
-      }
-
-      // ── open / close ───────────────────────────────────────────
-      function openCal() {
-        var base = selectedDate || TODAY;
-        viewYear = base.getFullYear();
-        viewMonth = base.getMonth();
-        pendingDate = selectedDate ? new Date(selectedDate) : null;
-        buildSelects();
-        renderGrid();
-        document.getElementById('calBackdrop').classList.add('open');
-        document.getElementById('dateTrigger').classList.add('active');
-        document.getElementById('dtArrow').classList.add('open');
-        document.getElementById('confirmBtn').disabled = !pendingDate;
-      }
-      function closeCal() {
-        document.getElementById('calBackdrop').classList.remove('open');
-        document.getElementById('dateTrigger').classList.remove('active');
-        document.getElementById('dtArrow').classList.remove('open');
-      }
-      function backdropClick(e) {
-        if (e.target === document.getElementById('calBackdrop')) closeCal();
-      }
-
-      // ── selects ────────────────────────────────────────────────
-      function buildSelects() {
-        var ySel = document.getElementById('yearSel');
-        var mSel = document.getElementById('monthSel');
-
-        ySel.innerHTML = '';
-        var maxY = TODAY.getFullYear();
-        var minY = maxY - 30;
-        for (var y = maxY; y >= minY; y--) {
-          var o = document.createElement('option');
-          o.value = y;
-          o.textContent = y;
-          if (y === viewYear) o.selected = true;
-          ySel.appendChild(o);
-        }
-
-        var mNames = [
-          '1月',
-          '2月',
-          '3月',
-          '4月',
-          '5月',
-          '6月',
-          '7月',
-          '8月',
-          '9月',
-          '10月',
-          '11月',
-          '12月',
-        ];
-        mSel.innerHTML = '';
-        var maxM = viewYear === TODAY.getFullYear() ? TODAY.getMonth() : 11;
-        for (var m = 0; m <= maxM; m++) {
-          var o2 = document.createElement('option');
-          o2.value = m;
-          o2.textContent = mNames[m];
-          if (m === viewMonth) o2.selected = true;
-          mSel.appendChild(o2);
-        }
-      }
-      function onYearChange() {
-        viewYear = parseInt(document.getElementById('yearSel').value);
-        if (viewYear === TODAY.getFullYear() && viewMonth > TODAY.getMonth()) {
-          viewMonth = TODAY.getMonth();
-        }
-        buildSelects();
-        renderGrid();
-      }
-      function onMonthChange() {
-        viewMonth = parseInt(document.getElementById('monthSel').value);
-        renderGrid();
-      }
-      function shiftMonth(d) {
-        viewMonth += d;
-        if (viewMonth > 11) {
-          viewMonth = 0;
-          viewYear++;
-        }
-        if (viewMonth < 0) {
-          viewMonth = 11;
-          viewYear--;
-        }
-        if (
-          viewYear > TODAY.getFullYear() ||
-          (viewYear === TODAY.getFullYear() && viewMonth > TODAY.getMonth())
-        ) {
-          viewYear = TODAY.getFullYear();
-          viewMonth = TODAY.getMonth();
-        }
-        var minYear = TODAY.getFullYear() - 30;
-        if (viewYear < minYear) {
-          viewYear = minYear;
-          viewMonth = 0;
-        }
-        buildSelects();
-        renderGrid();
-      }
-
-      // ── render grid ────────────────────────────────────────────
-      function sameDay(a, b) {
-        return (
-          a.getFullYear() === b.getFullYear() &&
-          a.getMonth() === b.getMonth() &&
-          a.getDate() === b.getDate()
-        );
-      }
-      function renderGrid() {
-        var grid = document.getElementById('calDays');
-        grid.innerHTML = '';
-
-        var firstDay = new Date(viewYear, viewMonth, 1).getDay();
-        var daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
-
-        for (var i = 0; i < firstDay; i++) {
-          var blank = document.createElement('button');
-          blank.className = 'cal-day empty';
-          blank.textContent = '';
-          grid.appendChild(blank);
-        }
-        for (var day = 1; day <= daysInMonth; day++) {
-          var btn = document.createElement('button');
-          var thisD = new Date(viewYear, viewMonth, day);
-          var cls = 'cal-day';
-          if (thisD > TODAY) cls += ' future';
-          if (sameDay(thisD, TODAY)) cls += ' today';
-          if (pendingDate && sameDay(thisD, pendingDate)) cls += ' selected';
-          btn.className = cls;
-          btn.textContent = day;
-          if (thisD <= TODAY) {
-            (function (dt) {
-              btn.addEventListener('click', function () {
-                pickDay(dt);
-              });
-            })(new Date(viewYear, viewMonth, day));
-          }
-          grid.appendChild(btn);
-        }
-      }
-      function pickDay(dt) {
-        pendingDate = dt;
-        renderGrid();
-        document.getElementById('confirmBtn').disabled = false;
-      }
-
-      // ── confirm ────────────────────────────────────────────────
-      function confirmDate() {
-        if (!pendingDate) return;
-        selectedDate = new Date(pendingDate);
-
-        // 儲存到 localStorage
-        localStorage.setItem(STORAGE_KEY, selectedDate.toISOString());
-
-        var el = document.getElementById('dtText');
-        el.classList.remove('ph');
-        el.textContent =
-          selectedDate.getFullYear() +
-          ' / ' +
-          String(selectedDate.getMonth() + 1).padStart(2, '0') +
-          ' / ' +
-          String(selectedDate.getDate()).padStart(2, '0');
-
-        closeCal();
-        showResult();
-      }
-
-      // ── formula & result ───────────────────────────────────────
-      function dogYearsFrom(birthday) {
-        return (TODAY - birthday) / (1000 * 60 * 60 * 24 * 365.25);
-      }
-      function toHuman(yrs) {
-        if (yrs <= 0) return null;
-        return yrs < 1
-          ? Math.round(yrs * 31)
-          : Math.round(16 * Math.log(yrs) + 31);
-      }
-      function getStage(h) {
-        if (h < 13)
-          return [
-            '幼年期 🐣',
-            '正在快速成長，充滿好奇心，每一天都是新發現的冒險！',
-          ];
-        if (h < 20)
-          return [
-            '青少年期 🌱',
-            '精力旺盛、愛玩耍，正處於探索世界的美好年紀。',
-          ];
-        if (h < 35)
-          return ['青年期 🌿', '體力充沛、學習力強，是毛孩最活躍的黃金歲月。'];
-        if (h < 50)
-          return [
-            '壯年期 🌳',
-            '穩重成熟、個性鮮明，與主人默契十足的最佳夥伴。',
-          ];
-        if (h < 65)
-          return [
-            '中年期 🍂',
-            '需要開始多留意健康，規律飲食與溫和運動是關鍵。',
-          ];
-        if (h < 80)
-          return [
-            '熟齡期 🌾',
-            '步調放緩，需要更多關愛，定期健檢讓毛孩安心老去。',
-          ];
-        return [
-          '高齡期 🌸',
-          '是家中最珍貴的老寶貝，每一刻的陪伴都值得好好珍惜。',
-        ];
-      }
-      function showResult() {
-        var yrs = dogYearsFrom(selectedDate);
-        var hAge = toHuman(yrs);
-        var tag = document.getElementById('dogAgeTag');
-        var ph = document.getElementById('placeholder');
-        var rc = document.getElementById('resultCard');
-
-        if (!hAge || yrs <= 0) {
-          tag.classList.remove('visible');
-          ph.style.display = 'flex';
-          rc.classList.remove('show');
-          return;
-        }
-
-        document.getElementById('dogAgeVal').textContent = yrs.toFixed(1);
-        tag.classList.add('visible');
-
-        var sg = getStage(hAge);
-        document.getElementById('resultAge').textContent = hAge;
-        document.getElementById('lifeStage').textContent = sg[0];
-        document.getElementById('resultDesc').textContent = sg[1];
-
-        ph.style.display = 'none';
-        rc.classList.remove('show');
-        void rc.offsetWidth;
-        rc.classList.add('show');
-      }
-
-      // 頁面載入時自動還原上次的生日
-      loadSavedBirthday();
-    </script>
   </body>
 </html>

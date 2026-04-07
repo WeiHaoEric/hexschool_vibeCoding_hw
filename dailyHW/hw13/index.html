@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>中文筆順學習</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Noto Sans TC', sans-seri;
+      background: linear-gradient(145deg, #dbeafe 0%, #d1fae5 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 32px 16px 48px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    header h1 {
+      font-size: 2rem;
+      font-weight: 900;
+      color: #1e3a8a;
+      letter-spacing: 0.08em;
+    }
+
+    header p {
+      color: #475569;
+      margin-top: 6px;
+      font-size: 0.95rem;
+    }
+
+    .search-bar {
+      display: flex;
+      gap: 10px;
+      width: 100%;
+      max-width: 480px;
+      margin-bottom: 8px;
+    }
+
+    .search-bar input {
+      flex: 1;
+      padding: 13px 18px;
+      font-size: 1.2rem;
+      border: 2px solid #bfdbfe;
+      border-radius: 14px;
+      outline: none;
+      font-family: 'Noto Sans TC', 'DFKai-SB', 'BiauKai', '標楷體', serif;
+      color: #1e293b;
+      background: white;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .search-bar input:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    }
+
+    .search-bar input::placeholder {
+      color: #94a3b8;
+      font-size: 1rem;
+    }
+
+    .search-bar button {
+      padding: 13px 22px;
+      font-size: 1rem;
+      background: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      font-weight: 700;
+      font-family: 'Noto Sans TC', sans-serif;
+      transition: background 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .search-bar button:hover {
+      background: #2563eb;
+      transform: scale(1.04);
+    }
+
+    .error-msg {
+      color: #ef4444;
+      font-size: 0.9rem;
+      height: 22px;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+
+    .card {
+      background: white;
+      border-radius: 28px;
+      box-shadow: 0 10px 40px rgba(30, 58, 138, 0.12);
+      padding: 36px 32px 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 480px;
+    }
+
+    #hanzi-target {
+      border: 2px dashed #e2e8f0;
+      border-radius: 16px;
+      background: #f8fafc;
+      overflow: hidden;
+    }
+
+    .stroke-count {
+      font-size: 1.05rem;
+      color: #64748b;
+      margin-top: 18px;
+      font-weight: 500;
+      min-height: 28px;
+      text-align: center;
+    }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 12px 20px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      font-weight: 700;
+      font-family: 'Noto Sans TC', sans-serif;
+      transition: background 0.2s, transform 0.12s, opacity 0.2s;
+      letter-spacing: 0.02em;
+    }
+
+    .btn:hover:not(:disabled) {
+      transform: scale(1.06);
+    }
+
+    .btn:active:not(:disabled) {
+      transform: scale(0.97);
+    }
+
+    .btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .btn-prev {
+      background: #f97316;
+      color: white;
+    }
+    .btn-prev:hover:not(:disabled) { background: #ea580c; }
+
+    .btn-next {
+      background: #3b82f6;
+      color: white;
+    }
+    .btn-next:hover:not(:disabled) { background: #2563eb; }
+
+    .btn-animate {
+      background: #8b5cf6;
+      color: white;
+    }
+    .btn-animate:hover:not(:disabled) { background: #7c3aed; }
+
+    .keyboard-hint {
+      margin-top: 18px;
+      font-size: 0.82rem;
+      color: #94a3b8;
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    .keyboard-hint kbd {
+      display: inline-block;
+      padding: 1px 6px;
+      border: 1px solid #cbd5e1;
+      border-radius: 5px;
+      font-size: 0.8rem;
+      background: #f1f5f9;
+      color: #475569;
+      font-family: monospace;
+    }
+
+    @media (max-width: 440px) {
+      header h1 { font-size: 1.6rem; }
+      .card { padding: 28px 20px 20px; }
+      .btn { padding: 11px 15px; font-size: 0.95rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🖊 中文筆順學習</h1>
+    <p>輸入一個中文字，跟著正確筆順一起學習</p>
+  </header>
+
+  <div class="search-bar">
+    <input
+      type="text"
+      id="search-input"
+      placeholder="輸入一個中文字，例如：山"
+      maxlength="2"
+      autocomplete="off"
+    >
+    <button id="search-btn">搜尋</button>
+  </div>
+  <div class="error-msg" id="error-msg"></div>
+
+  <div class="card">
+    <div id="hanzi-target"></div>
+
+    <div class="stroke-count" id="stroke-count">請搜尋一個中文字開始學習 ✏️</div>
+
+    <div class="controls">
+      <button class="btn btn-prev" id="btn-prev" disabled onclick="prevStroke()">← 上一筆</button>
+      <button class="btn btn-animate" id="btn-animate" disabled onclick="playAnimation()">▶ 播放動畫</button>
+      <button class="btn btn-next" id="btn-next" disabled onclick="nextStroke()">下一筆 →</button>
+    </div>
+
+    <div class="keyboard-hint">
+      鍵盤 <kbd>←</kbd> 上一筆 &nbsp;|&nbsp; <kbd>→</kbd> 下一筆
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
+  <script>
+    const searchInput = document.getElementById('search-input');
+    const searchBtn   = document.getElementById('search-btn');
+    const errorMsg    = document.getElementById('error-msg');
+    const strokeCount = document.getElementById('stroke-count');
+    const btnAnimate  = document.getElementById('btn-animate');
+    const btnPrev     = document.getElementById('btn-prev');
+    const btnNext     = document.getElementById('btn-next');
+
+    const CANVAS_SIZE = 300;
+
+    let writer        = null;
+    let currentStroke = -1;
+    let totalStrokes  = 0;
+    let isAnimating   = false;
+    let isLoaded      = false;
+
+    // ── 初始化 HanziWriter ────────────────────────────────────────
+    writer = HanziWriter.create('hanzi-target', '永', {
+      width: CANVAS_SIZE,
+      height: CANVAS_SIZE,
+      padding: 16,
+      showOutline: true,
+      showCharacter: false,
+      strokeColor: '#e53935',
+      outlineColor: '#cbd5e1',
+      strokeAnimationSpeed: 0.7,
+      delayBetweenStrokes: 150,
+    });
+
+    // 初始載入預設字 山，取得筆畫數後等待使用者操作
+    loadChar('永', /* isInit= */ true);
+
+    // ── 載入字 ───────────────────────────────────────────────────
+    function loadChar(char, isInit) {
+      isLoaded = false;
+      currentStroke = -1;
+      totalStrokes  = 0;
+      isAnimating   = false;
+      disableButtons();
+
+      if (!isInit) {
+        strokeCount.textContent = '載入中...';
+      }
+
+      writer.setCharacter(char).then(() => {
+        totalStrokes = writer._character.strokes.length;
+        currentStroke = -1;
+        isLoaded = true;
+        writer.hideCharacter();
+        enableButtons();
+        updateUI();
+        if (isInit) {
+          strokeCount.textContent = `請按「下一筆」或 → 開始學習（共 ${totalStrokes} 筆）`;
+        }
+      }).catch(() => {
+        errorMsg.textContent = '找不到此字的筆順資料，請試試其他字';
+        strokeCount.textContent = '';
+        disableButtons();
+      });
+    }
+
+    // ── 搜尋 ─────────────────────────────────────────────────────
+    function doSearch() {
+      const raw  = searchInput.value.trim();
+      const char = raw[0] || '';
+      errorMsg.textContent = '';
+
+      if (!char) {
+        errorMsg.textContent = '請輸入一個中文字';
+        return;
+      }
+
+      const isChinese = /^[\u4e00-\u9fff\u3400-\u4dbf\u20000-\u2a6df]$/u.test(char);
+      if (!isChinese) {
+        errorMsg.textContent = '請輸入單一繁體中文字';
+        return;
+      }
+
+      searchInput.value = char;
+      loadChar(char, /* isInit= */ false);
+    }
+
+    searchBtn.addEventListener('click', doSearch);
+    searchInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') doSearch();
+    });
+
+    // ── 筆畫控制 ─────────────────────────────────────────────────
+    function nextStroke() {
+      if (!isLoaded || isAnimating || currentStroke >= totalStrokes - 1) return;
+      isAnimating = true;
+      currentStroke++;
+      updateStrokeLabel();
+      updateButtonStates();
+      writer.animateStroke(currentStroke).then(() => {
+        isAnimating = false;
+        updateUI();
+      });
+    }
+
+    function prevStroke() {
+      if (!isLoaded || isAnimating || currentStroke < 0) return;
+      currentStroke--;
+      writer.hideCharacter({ duration: 0 }).then(() => {
+        for (let i = 0; i <= currentStroke; i++) {
+          writer.showStroke(i, { duration: 0 });
+        }
+        updateUI();
+      });
+    }
+
+    function playAnimation() {
+      if (!isLoaded || isAnimating) return;
+      isAnimating = true;
+      writer.hideCharacter();
+      currentStroke = -1;
+      updateUI();
+      writer.animateCharacter().then(() => {
+        isAnimating = false;
+        currentStroke = totalStrokes - 1;
+        updateUI();
+      });
+    }
+
+    // ── UI 更新 ───────────────────────────────────────────────────
+    function updateUI() {
+      updateStrokeLabel();
+      updateButtonStates();
+    }
+
+    function updateStrokeLabel() {
+      if (!isLoaded) return;
+      if (currentStroke === -1) {
+        strokeCount.textContent = `共 ${totalStrokes} 筆畫，按「下一筆」開始`;
+      } else {
+        strokeCount.textContent = `第 ${currentStroke + 1} 筆 / 共 ${totalStrokes} 筆`;
+      }
+    }
+
+    function updateButtonStates() {
+      btnAnimate.disabled = isAnimating;
+      btnPrev.disabled    = currentStroke < 0;
+      btnNext.disabled    = currentStroke >= totalStrokes - 1;
+    }
+
+    function enableButtons() {
+      btnAnimate.disabled = false;
+      btnNext.disabled    = false;
+      btnPrev.disabled    = true; // 還沒顯示任何筆畫
+    }
+
+    function disableButtons() {
+      btnAnimate.disabled = true;
+      btnPrev.disabled    = true;
+      btnNext.disabled    = true;
+    }
+
+    // ── 鍵盤控制 ─────────────────────────────────────────────────
+    document.addEventListener('keydown', (e) => {
+      if (document.activeElement === searchInput) return;
+      if (e.key === 'ArrowRight') { e.preventDefault(); nextStroke(); }
+      if (e.key === 'ArrowLeft')  { e.preventDefault(); prevStroke(); }
+    });
+  </script>
+</body>
+</html>

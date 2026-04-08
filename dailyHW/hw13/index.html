@@ -49,7 +49,8 @@
       gap: 10px;
       width: 100%;
       max-width: 480px;
-      margin-bottom: 8px;
+      margin: 0 auto 8px;
+      justify-content: center;
     }
 
     .search-bar input {
@@ -76,7 +77,7 @@
     }
 
     .search-bar button {
-      padding: 13px 22px;
+      padding: 13px 16px;
       font-size: 1rem;
       background: #3b82f6;
       color: white;
@@ -87,6 +88,7 @@
       font-family: 'Noto Sans TC', sans-serif;
       transition: background 0.2s, transform 0.1s;
       white-space: nowrap;
+      flex-shrink: 0;
     }
 
     .search-bar button:hover {
@@ -98,7 +100,9 @@
       color: #ef4444;
       font-size: 0.9rem;
       height: 22px;
-      margin-bottom: 12px;
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto 12px;
       text-align: center;
     }
 
@@ -112,6 +116,7 @@
       align-items: center;
       width: 100%;
       max-width: 480px;
+      margin: 0 auto;
     }
 
     #hanzi-target {
@@ -120,6 +125,7 @@
       background: #f8fafc;
       margin: 0 auto;
       overflow: hidden;
+      max-width: 100%;
     }
 
     .stroke-count {
@@ -331,32 +337,66 @@
     const btnPrev     = document.getElementById('btn-prev');
     const btnNext     = document.getElementById('btn-next');
 
-    const CANVAS_SIZE = 300;
-
     let writer        = null;
     let currentStroke = -1;
     let totalStrokes  = 0;
     let isAnimating   = false;
     let isLoaded      = false;
+    let currentChar   = '永';
+
+    // ── 動態計算畫布大小 ──────────────────────────────────────────
+    function getCanvasSize() {
+      const vw = window.innerWidth;
+      // body padding + card padding (各 side)
+      if (vw <= 480) return Math.max(vw - 48, 200);  // 10*2 + 14*2
+      if (vw <= 768) return Math.min(vw - 72, 300);  // 12*2 + 24*2
+      return 300;
+    }
+
+    // ── 建立 / 重建 HanziWriter ───────────────────────────────────
+    function createWriter(char) {
+      const size = getCanvasSize();
+      const target = document.getElementById('hanzi-target');
+      target.innerHTML = '';
+      return HanziWriter.create('hanzi-target', char, {
+        width: size,
+        height: size,
+        padding: 16,
+        showOutline: true,
+        showCharacter: false,
+        strokeColor: '#e53935',
+        outlineColor: '#cbd5e1',
+        strokeAnimationSpeed: parseFloat(document.getElementById('speed-slider').value),
+        delayBetweenStrokes: 150,
+      });
+    }
 
     // ── 初始化 HanziWriter ────────────────────────────────────────
-    writer = HanziWriter.create('hanzi-target', '永', {
-      width: CANVAS_SIZE,
-      height: CANVAS_SIZE,
-      padding: 16,
-      showOutline: true,
-      showCharacter: false,
-      strokeColor: '#e53935',
-      outlineColor: '#cbd5e1',
-      strokeAnimationSpeed: 0.7,
-      delayBetweenStrokes: 150,
-    });
+    writer = createWriter('永');
 
-    // 初始載入預設字 山，取得筆畫數後等待使用者操作
+    // 初始載入預設字，取得筆畫數後等待使用者操作
     loadChar('永', /* isInit= */ true);
+
+    // ── Resize 自動重建 ───────────────────────────────────────────
+    let _resizeTimer;
+    let _lastSize = getCanvasSize();
+    window.addEventListener('resize', () => {
+      clearTimeout(_resizeTimer);
+      _resizeTimer = setTimeout(() => {
+        const newSize = getCanvasSize();
+        if (newSize === _lastSize) return;
+        _lastSize = newSize;
+        const char = currentChar;
+        writer = createWriter(char);
+        if (isLoaded) {
+          loadChar(char, /* isInit= */ false);
+        }
+      }, 200);
+    });
 
     // ── 載入字 ───────────────────────────────────────────────────
     function loadChar(char, isInit) {
+      currentChar = char;
       isLoaded = false;
       currentStroke = -1;
       totalStrokes  = 0;

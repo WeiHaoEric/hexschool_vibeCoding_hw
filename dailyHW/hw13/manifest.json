@@ -1,0 +1,16 @@
+{
+  "name": "中文筆順學習",
+  "short_name": "筆順學習",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#dbeafe",
+  "theme_color": "#3b82f6",
+  "icons": [
+    {
+      "src": "./icon.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

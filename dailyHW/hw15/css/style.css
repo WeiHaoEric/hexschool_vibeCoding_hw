@@ -1,0 +1,459 @@
+/* ===== CSS Custom Properties — Cafe Wooden Theme ===== */
+:root {
+  --bg-main: #2C1A0E;  /* 深焙咖啡棕 */
+  --bg-card: #3D2314;  /* 木質深棕 */
+  --accent:  #C8915A;  /* 焦糖木色 */
+  --text:    #F5E6D3;  /* 奶泡米白 */
+  --border:  #8B5E3C;  /* 中木棕 */
+  --done:    #6B8F5E;  /* 苔蘚綠 */
+  --alert:   #C0392B;  /* 沉紅 */
+}
+
+/* ===== Reset & Base ===== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Georgia', serif;
+  background-color: var(--bg-main);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== Header ===== */
+header {
+  background-color: var(--bg-card);
+  border-bottom: 2px solid var(--border);
+  padding: 16px 24px;
+  text-align: center;
+}
+
+header h1 {
+  font-size: 1.6rem;
+  color: var(--accent);
+  letter-spacing: 0.05em;
+}
+
+header h1 span {
+  font-size: 1.2em;
+  margin-right: 8px;
+}
+
+/* ===== Notification Banner ===== */
+#notification-banner {
+  display: none;
+  background-color: var(--alert);
+  color: #fff;
+  padding: 10px 20px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+#notification-banner.visible {
+  display: block;
+}
+
+/* ===== Main Layout — 2-column Desktop ===== */
+main {
+  display: flex;
+  flex: 1;
+  gap: 0;
+}
+
+/* ===== Calendar Panel ===== */
+#calendar-panel {
+  width: 340px;
+  min-width: 300px;
+  background-color: var(--bg-card);
+  border-right: 2px solid var(--border);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Calendar Header */
+#calendar-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#calendar-nav button {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--accent);
+  font-size: 1.2rem;
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+#calendar-nav button:hover {
+  background-color: var(--border);
+}
+
+#calendar-month-label {
+  font-size: 1rem;
+  color: var(--accent);
+  font-weight: bold;
+}
+
+/* Calendar Grid */
+#calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.cal-dow {
+  text-align: center;
+  font-size: 0.7rem;
+  color: var(--border);
+  padding: 4px 0;
+  text-transform: uppercase;
+}
+
+.cal-day {
+  position: relative;
+  text-align: center;
+  padding: 6px 2px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background 0.15s;
+  min-height: 38px;
+}
+
+.cal-day:hover {
+  background-color: var(--border);
+}
+
+.cal-day.today {
+  background-color: var(--accent);
+  color: var(--bg-main);
+  font-weight: bold;
+}
+
+.cal-day.selected {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.cal-day.today.selected {
+  outline: 2px solid var(--text);
+  outline-offset: -2px;
+}
+
+.cal-day.other-month {
+  opacity: 0.3;
+  cursor: default;
+}
+
+/* Task indicator dots */
+.cal-dot {
+  position: absolute;
+  bottom: 3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.cal-dot.pending {
+  background-color: var(--alert);
+}
+
+.cal-dot.done {
+  background-color: var(--done);
+}
+
+/* ===== Task Panel ===== */
+#task-panel {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto;
+}
+
+#task-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+#selected-date-label {
+  font-size: 1.1rem;
+  color: var(--accent);
+  font-weight: bold;
+}
+
+#btn-add-task {
+  background-color: var(--accent);
+  color: var(--bg-main);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  transition: opacity 0.2s;
+}
+
+#btn-add-task:hover {
+  opacity: 0.85;
+}
+
+/* ===== Task List ===== */
+#task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.task-item {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.task-item input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--done);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.task-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.task-title {
+  font-size: 0.95rem;
+  word-break: break-word;
+}
+
+.task-title.completed {
+  text-decoration: line-through;
+  color: var(--done);
+}
+
+.task-alarm {
+  font-size: 0.75rem;
+  color: var(--border);
+  margin-top: 3px;
+}
+
+.task-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.btn-icon {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text);
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+
+.btn-icon:hover {
+  background-color: var(--border);
+}
+
+.btn-icon.delete:hover {
+  background-color: var(--alert);
+  border-color: var(--alert);
+}
+
+.task-empty {
+  color: var(--border);
+  text-align: center;
+  padding: 30px 0;
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+/* ===== Modal (Add/Edit Task) ===== */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-overlay.open {
+  display: flex;
+}
+
+.modal-box {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 24px;
+  width: 360px;
+  max-width: 95vw;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.modal-box h2 {
+  color: var(--accent);
+  font-size: 1.1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.form-group label {
+  font-size: 0.8rem;
+  color: var(--border);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.form-group input {
+  background-color: var(--bg-main);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  color: var(--text);
+  padding: 8px 10px;
+  font-size: 0.95rem;
+  font-family: inherit;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.form-error {
+  font-size: 0.8rem;
+  color: var(--alert);
+  min-height: 1.1em;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.btn-cancel {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.15s;
+}
+
+.btn-cancel:hover {
+  background-color: var(--border);
+}
+
+.btn-save {
+  background-color: var(--accent);
+  color: var(--bg-main);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  transition: opacity 0.2s;
+}
+
+.btn-save:hover {
+  opacity: 0.85;
+}
+
+/* ===== Startup Reminder Modal ===== */
+#reminder-modal .modal-box {
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+#reminder-modal h2 {
+  font-size: 1.1rem;
+}
+
+#reminder-task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.reminder-task-item {
+  background-color: var(--bg-main);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+
+.reminder-task-item .r-title {
+  font-size: 0.9rem;
+}
+
+.reminder-task-item .r-alarm {
+  font-size: 0.75rem;
+  color: var(--border);
+  margin-top: 2px;
+}
+
+/* ===== RWD — 640px breakpoint ===== */
+@media (max-width: 640px) {
+  main {
+    flex-direction: column;
+  }
+
+  #calendar-panel {
+    width: 100%;
+    min-width: unset;
+    border-right: none;
+    border-bottom: 2px solid var(--border);
+  }
+
+  #task-panel {
+    padding: 16px;
+  }
+
+  header h1 {
+    font-size: 1.3rem;
+  }
+}
